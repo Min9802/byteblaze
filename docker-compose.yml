@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  byteblaze:
+    build: .
+    image: byteblaze:latest
+    container_name: byteblaze
+    user: root
+    restart: unless-stopped
+    environment:
+      - DOCKER_COMPOSE_DATABASE=true
+      - DOCKER_COMPOSE_MODE=true
+      # Database
+      - MONGO_URI=mongodb://root:yap0Cv0sRRp2nwec@localhost:27018/byteblaze?authMechanism=DEFAULT&authSource=admin
+      # Lavalink
+      - NODE_HOST=127.0.0.1
+      - NODE_PORT=2333
+      - NODE_AUTH=youshallnotpass

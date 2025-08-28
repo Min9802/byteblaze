@@ -1,0 +1,11 @@
+apps:
+  - name: bot-nhac
+    script: ./dist/index.js
+    node_args: --no-deprecation
+    instances: 1
+    autorestart: true
+    watch: false
+    max_memory_restart: 512M
+    env:
+      NODE_ENV: production
+
