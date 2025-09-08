@@ -1,14 +1,22 @@
-FROM node:alpine
-# Create the bot's directory
-RUN mkdir -p /main/bot
-WORKDIR /main/bot
-ENV NODE_PATH=/usr/local/lib/node_modules
-COPY package.json /main/bot
-COPY tsconfig.json /main/bot
-RUN npm i
-COPY . /main/bot
-ENV NODE_PATH=/usr/local/lib/node_modules
-LABEL name="byteblaze" version="5.0"
-# Start the bot.
-RUN npm run build
-CMD ["npm", "run", "start"]
+FROM node:20-alpine
+
+# Tạo thư mục app
+WORKDIR /app
+
+# Copy package.json trước để install dep
+COPY package*.json ./
+
+# Cài production dependencies
+RUN npm install --only=production
+
+# Copy thư mục dist đã build sẵn
+COPY dist ./dist
+
+# Copy file config
+COPY app.yml ./app.yml
+
+# Copy languages folder
+COPY languages ./languages
+
+# Chạy bot
+CMD ["node", "--no-deprecation", "./dist/index.js"]
